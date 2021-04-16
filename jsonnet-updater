@@ -13,26 +13,26 @@ gh api --silent repos/:owner/:repo/labels -f name="${JSONNET_UPDATER_TAG}" -f co
 # Only run this script if there are no open PRs from previous runs.
 OPEN_PRS=$(gh pr list -R "${GITHUB_REPOSITORY}" -l "${JSONNET_UPDATER_TAG}" -s open | wc -l)
 if [ "${OPEN_PRS}" -ge "1" ]; then
-    echo "${OPEN_PRS} already open, quitting."
-    exit
+	echo "${OPEN_PRS} already open, quitting."
+	exit
 fi
 
 for dep in $(jq -r '.dependencies[] | (.source.git.remote + "/" + .source.git.subdir)' <"${JSONNET_FILE}"); do
 
-    echo "Updating ${dep}"
-    (cd "$(dirname "${JSONNET_FILE}")" && jb update "${dep}")
+	echo "Updating ${dep}"
+	(cd "$(dirname "${JSONNET_FILE}")" && jb update "${dep}")
 
-    # We're checking to see if anything other than the jsonnet lock file changed.
-    git add "$(dirname "${JSONNET_FILE}")/vendor"
-    status=$(git status -uno --porcelain=v1 2>/dev/null | grep -v ksonnet/jsonnetfile.lock.json | wc -l)
+	# We're checking to see if anything other than the jsonnet lock file changed.
+	git add "$(dirname "${JSONNET_FILE}")/vendor"
+	status=$(git status -uno --porcelain=v1 2>/dev/null | grep -c -v ksonnet/jsonnetfile.lock.json)
 
-    if [ "${status}" -eq "0" ]; then
-        continue
-    fi
+	if [ "${status}" -eq "0" ]; then
+		continue
+	fi
 
-    git checkout -b "jsonnet-updater-$(date +%F-%H-%M-%S)"
-    git commit -a -m "Update $(basename ${dep})"
-    git push -u origin HEAD
-    gh pr create -R "${GITHUB_REPOSITORY}" --fill --label "${JSONNET_UPDATER_TAG}"
-    exit
+	git checkout -b "jsonnet-updater-$(date +%F-%H-%M-%S)"
+	git commit -a -m "Update $(basename "${dep}")"
+	git push -u origin HEAD
+	gh pr create -R "${GITHUB_REPOSITORY}" --fill --label "${JSONNET_UPDATER_TAG}"
+	exit
 done
