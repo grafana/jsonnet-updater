@@ -11,9 +11,9 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Run Jsonnet Updater
-      uses: tomwilkie/jsonnet-updater@v0.3
+      uses: grafana/jsonnet-updater@v0.4
       with:
         git-user-name: Tom Wilkie
-        git-user-email: tom.wilkie@gmail.com
+        git-user-email: tom@grafana.com
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

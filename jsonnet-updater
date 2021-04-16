@@ -7,6 +7,9 @@ git config user.email "${GIT_USER_EMAIL}"
 JSONNET_UPDATER_TAG=${JSONNET_UPDATER_TAG:-jsonnet-updater}
 JSONNET_FILE=${JSONNET_FILE:-./jsonnetfile.json}
 
+# Make sure the label exists
+gh api --silent repos/:owner/:repo/labels -f name="${JSONNET_UPDATER_TAG}" -f color="0E8A16" || true
+
 # Only run this script if there are no open PRs from previous runs.
 OPEN_PRS=$(gh pr list -R "${GITHUB_REPOSITORY}" -l "${JSONNET_UPDATER_TAG}" -s open | wc -l)
 if [ "${OPEN_PRS}" -ge "1" ]; then
@@ -28,7 +31,7 @@ for dep in $(jq -r '.dependencies[] | (.source.git.remote + "/" + .source.git.su
     fi
 
     git checkout -b "jsonnet-updater-$(date +%F-%H-%M-%S)"
-    git commit -a -m "Update ${dep}"
+    git commit -a -m "Update $(basename ${dep})"
     git push -u origin HEAD
     gh pr create -R "${GITHUB_REPOSITORY}" --fill --label "${JSONNET_UPDATER_TAG}"
     exit
