@@ -1,0 +1,17 @@
+name: Jsonnet Updater
+on:
+  schedule:
+    - cron: "* * * * *"
+
+  # For testing.
+  workflow_dispatch:
+
+jobs:
+  Jsonnet-Updater:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Run Jsonnet Updater
+      uses: tomwilkie/jsonnet-updater@v0.1

@@ -1,0 +1,11 @@
+name: Jsonnet Updater
+description: Update vendored jsonnet libraries
+inputs:
+  jsonnet-file:
+    required: false
+    default: ./jsonnetfile.json
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    JSONNET_FILE: ${{ inputs.jsonnet-file }}

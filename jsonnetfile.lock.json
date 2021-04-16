@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "dependencies": [
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/grafana/jsonnet-libs.git",
+          "subdir": "grafana-builder"
+        }
+      },
+      "version": "23122d4d3be1ea24f992549e0cd4e3965a89f2e6",
+      "sum": "GRf2GvwEU4jhXV+JOonXSZ4wdDv8mnHBPCQ6TUVd+g8="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/grafana/jsonnet-libs.git",
+          "subdir": "memcached-mixin"
+        }
+      },
+      "version": "23122d4d3be1ea24f992549e0cd4e3965a89f2e6",
+      "sum": "f+CdSkCAWabNhghrRAsxyHYCgkajjgQuoMmL3Dt/hBk="
+    }
+  ],
+  "legacyImports": false
+}
