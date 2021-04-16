@@ -1,6 +1,9 @@
 #!/bin/bash
 set -eux
 
+git config user.name "${GIT_USER_NAME}"
+git config user.email "${GIT_USER_EMAIL}"
+
 JSONNET_UPDATER_TAG=${JSONNET_UPDATER_TAG:-jsonnet-updater}
 JSONNET_FILE=${JSONNET_FILE:-./jsonnetfile.json}
 
