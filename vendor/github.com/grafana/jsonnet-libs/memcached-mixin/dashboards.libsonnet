@@ -3,10 +3,7 @@ local g = (import 'grafana-builder/grafana.libsonnet');
 {
   grafanaDashboards+: {
     'memcached-overview.json':
-      (
-        g.dashboard('Memcached Overview') +
-        { uid: '124d5222454213f748dbfaf69b77ec48' }
-      )
+      g.dashboard('Memcached Overview')
       .addMultiTemplate('cluster', 'memcached_commands_total', 'cluster')
       .addMultiTemplate('job', 'memcached_commands_total{cluster=~"$cluster"}', 'job')
       .addMultiTemplate('instance', 'memcached_commands_total{cluster=~"$cluster",job=~"$job"}', 'instance')
