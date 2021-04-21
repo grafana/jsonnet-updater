@@ -24,7 +24,7 @@ for dep in $(jq -r '.dependencies[] | (.source.git.remote + "/" + .source.git.su
 
 	# We're checking to see if anything other than the jsonnet lock file changed.
 	git add "$(dirname "${JSONNET_FILE}")/vendor"
-	status=$(git status -uno --porcelain=v1 2>/dev/null | grep -c -v ksonnet/jsonnetfile.lock.json)
+	status=$(git status -uno --porcelain=v1 2>/dev/null | grep -c -q -v ksonnet/jsonnetfile.lock.json)
 
 	if [ "${status}" -eq "0" ]; then
 		continue
